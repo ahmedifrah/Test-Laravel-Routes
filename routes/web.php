@@ -1,25 +1,19 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 // Task 1: point the main "/" URL to the HomeController method "index"
 // Put one code line here below
+Route::get('/', [HomeController::class, 'index']);
 
 
 // Task 2: point the GET URL "/user/[name]" to the UserController method "show"
 // It doesn't use Route Model Binding, it expects $name as a parameter
 // Put one code line here below
+Route::get('/user/{name}', [UserController::class, 'show']);
 
 
 // Task 3: point the GET URL "/about" to the view
