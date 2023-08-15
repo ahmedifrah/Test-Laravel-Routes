@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\StatsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,15 +23,27 @@ Route::get('/user/{name}', [UserController::class, 'show']);
 // resources/views/pages/about.blade.php - without any controller
 // Also, assign the route name "about"
 // Put one code line here below
-
+Route::view('/about', 'pages.about')->name('about');
 
 // Task 4: redirect the GET URL "log-in" to a URL "login"
 // Put one code line here below
+Route::redirect('/log-in', '/login');
 
 
 // Task 5: group the following route sentences below in Route::group()
 // Assign middleware "auth"
 // Put one Route Group code line here below
+Route::group(['middleware' => 'auth'], function (){
+    Route::group(['prefix' => 'app'], function (){
+        Route::get('dashboard', DashboardController::class)->name('dashboard');
+        Route::resource('tasks', TaskController::class);
+    });
+
+    Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function (){
+        Route::get('dashboard', \App\Http\Controllers\Admin\DashboardController::class);
+        Route::get('stats', StatsController::class);
+    });
+});
 
     // Tasks inside that Authenticated group:
 
